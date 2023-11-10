@@ -3,3 +3,7 @@ class User:
         self.username = username
         self.email = email
         self.password = password
+
+
+# TODO ->
+# add login, logout methods to model.

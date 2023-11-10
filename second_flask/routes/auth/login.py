@@ -1,41 +1,42 @@
-from flask import request, jsonify
-from second_flask.schemas import user_schema
+from flask import request, jsonify, session
 from . import auth_bp
-
-
-# Creates Instance of UserSchema -
-user_schema = user_schema.UserSchema()
 
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
-    # Imports mongo initialize function ->3
+    # Imports mongo initialize function ->
     from second_flask.config.db_config import initialize_mongo
 
     # Initial Step ->
     mongo = initialize_mongo()  # Initialize mongo
     data = request.get_json()
-    errors = user_schema.validate(data)
 
-    if errors:
-        return jsonify({'message': 'Validation errors', 'errors': errors}), 400
-
+    # get username and password from data object ->
     username = data['username']
+    email = data['email']
     password = data['password']
 
-    user = mongo.db.users.find_one({'username': username})
+    # Check the existence of user ->
+    user = mongo.db.users.find_one({'email': email, 'username': username})
 
+    # Check if the username has correct password saved previously ->
     if user and password == user['password']:
-        # Implement your authentication logic here
+
+        # Assign session for the user who is logged in ->
+        session['user_id'] = user['_id']  # object id
+        # session_id = request.cookies.get('session')  - Not to do this instead do -
+        session_id = session.sid  # With sid for direct access without delay
 
         response_data = {
             'message': 'Login successful',
+            'session_id': session_id,  # sends session id back to user
             'user': {
                 'username': user['username'],
-                'user_id': user['_id'],
                 'email': user['email']
             }
         }
+
+        # Do whatever you need - after successful login -
         return jsonify(response_data), 200
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
