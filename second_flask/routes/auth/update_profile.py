@@ -43,7 +43,7 @@ def update_profile():
                 update_data = {'$set': {'email': email, 'username': username}}
                 mongo.db.users.update_one({'_id': user_id}, update_data)
 
-                return jsonify({'message': 'Details updated Successfully'})
+                return jsonify({'message': 'Details updated Successfully'}), 200
 
             else:
                 return jsonify({'message': 'User with this email, already exists.'})
