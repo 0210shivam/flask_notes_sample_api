@@ -1,5 +1,3 @@
-# Documentation 
-
 # Flask CRUD API Project
 
 This is a Flask project that provides a simple CRUD (Create, Read, Update, Delete) API for managing resources.
