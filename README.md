@@ -72,7 +72,7 @@ This API enforces certain validation rules to ensure the integrity of the data. 
 - **Description:** Adds many documents to database.
 - **Sample request:** 
     ```bash
-    curl -X POST -H "Content-Type: application/json" -d '[{"name": "New Resource", "description": "This is a sample resource."},{"name": "Another Resource", "description": "This is second resource."}}' http://localhost:5000/add_many
+    curl -X POST -H "Content-Type: application/json" -d '[{"name": "New Resource", "description": "This is a sample resource."},{"name": "Another Resource", "description": "This is second resource."}}]' http://localhost:5000/add_many
 
 ### Authentication related routes
 #### 1. To register user
